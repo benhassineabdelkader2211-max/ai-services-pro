@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Services Pro - Services Professionnels</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .contact {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .hero {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero p {
+            font-size: 22px;
+            opacity: 0.9;
+        }
+        
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .service-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .service-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+        
+        .service-card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .service-card p {
+            opacity: 0.9;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .price {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffd700;
+            margin-top: 15px;
+        }
+        
+        .order-btn {
+            background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+            color: black;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .order-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            border-radius: 25px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 30px;
+            cursor: pointer;
+            color: white;
+            background: rgba(0, 0, 0, 0.3);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+        
+        .payment-info {
+            background: rgba(255, 215, 0, 0.2);
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .payment-info h4 {
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+        
+        .payment-steps {
+            text-align: left;
+            line-height: 1.8;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+        
+        .feature {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .modal-content {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                ✨ AI Services Pro
+            </div>
+            <div class="contact">
+                📱 94 867 689
+            </div>
+        </header>
+        
+        <div class="hero">
+            <h1>Services Professionnels de Qualité</h1>
+            <p>Contenus professionnels livrés rapidement</p>
+        </div>
+        
+        <div class="services">
+            <div class="service-card">
+                <div class="service-icon">📝</div>
+                <h3>Articles & Contenus</h3>
+                <p>Articles SEO, blog posts, contenus web professionnels</p>
+                <div class="price">5 DT</div>
+                <button class="order-btn" onclick="openModal('Articles & Contenus', '5 DT')">Commander</button>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">📱</div>
+                <h3>Posts Réseaux Sociaux</h3>
+                <p>Posts attractifs pour Facebook, Instagram, LinkedIn</p>
+                <div class="price">3 DT</div>
+                <button class="order-btn" onclick="openModal('Posts Réseaux Sociaux', '3 DT')">Commander</button>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">🌍</div>
+                <h3>Traduction</h3>
+                <p>Traduction professionnelle FR/AR/EN</p>
+                <div class="price">4 DT</div>
+                <button class="order-btn" onclick="openModal('Traduction', '4 DT')">Commander</button>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">💼</div>
+                <h3>CV Professionnel</h3>
+                <p>CV optimisé + lettre de motivation</p>
+                <div class="price">8 DT</div>
+                <button class="order-btn" onclick="openModal('CV Professionnel', '8 DT')">Commander</button>
+            </div>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>Livraison Rapide</h3>
+                <p>Résultats livrés en moins de 24h</p>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">✅</div>
+                <h3>Qualité Garantie</h3>
+                <p>Contenu professionnel et optimisé</p>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">💬</div>
+                <h3>Support Disponible</h3>
+                <p>Contact via WhatsApp 24/7</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 AI Services Pro | Contact: 94 867 689 (WhatsApp/D17)</p>
+        </footer>
+    </div>
+    
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 style="margin-bottom: 25px;">Commander: <span id="serviceName"></span></h2>
+            
+            <form id="orderForm" onsubmit="submitOrder(event)">
+                <div class="form-group">
+                    <label>Votre Nom:</label>
+                    <input type="text" id="clientName" placeholder="Entrez votre nom" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Numéro de Téléphone:</label>
+                    <input type="tel" id="clientPhone" placeholder="Ex: 94 867 689" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Description de votre besoin:</label>
+                    <textarea id="orderDetails" placeholder="Décrivez en détail ce que vous souhaitez..." required></textarea>
+                </div>
+                
+                <div class="payment-info">
+                    <h4>💳 Instructions de Paiement</h4>
+                    <div class="payment-steps">
+                        <p><strong>Prix:</strong> <span id="servicePrice"></span></p>
+                        <br>
+                        <p>1️⃣ Envoyez le montant via <strong>D17</strong> au numéro:</p>
+                        <p style="font-size: 24px; color: #ffd700; margin: 10px 0;"><strong>94 867 689</strong></p>
+                        <p>2️⃣ Prenez une capture d'écran du reçu</p>
+                        <p>3️⃣ Cliquez sur "Envoyer la Commande"</p>
+                        <p>4️⃣ Envoyez la capture + ce formulaire sur WhatsApp</p>
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn">📤 Envoyer la Commande</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        let currentService = '';
+        let currentPrice = '';
+        
+        function openModal(service, price) {
+            currentService = service;
+            currentPrice = price;
+            document.getElementById('serviceName').textContent = service;
+            document.getElementById('servicePrice').textContent = price;
+            document.getElementById('orderModal').classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('orderModal').classList.remove('active');
+            document.getElementById('orderForm').reset();
+        }
+        
+        function submitOrder(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('clientName').value;
+            const phone = document.getElementById('clientPhone').value;
+            const details = document.getElementById('orderDetails').value;
+            
+            const message = `🆕 NOUVELLE COMMANDE
+            
+📦 Service: ${currentService}
+💰 Prix: ${currentPrice}
+
+👤 Client: ${name}
+📱 Téléphone: ${phone}
+
+📝 Détails:
+${details}
+
+⏰ Date: ${new Date().toLocaleString('fr-FR')}
+
+✅ En attente de confirmation de paiement D17`;
+            
+            const whatsappURL = `https://wa.me/21694867689?text=${encodeURIComponent(message)}`;
+            
+            window.open(whatsappURL, '_blank');
+            
+            alert('✅ Commande envoyée!\n\nN\'oubliez pas d\'envoyer aussi la capture d\'écran du paiement D17 sur WhatsApp.');
+            
+            closeModal();
+        }
+        
+        document.getElementById('orderModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
